@@ -1,0 +1,24 @@
+version: '3'
+services:
+  web:
+    container_name: management
+    build:
+      context: web
+      target: dev-envs
+    ports: 
+      - '11180:80'
+    volumes:
+      - ./web/wwwroot:/var/www/html/
+    networks:
+      - simple_api_proxy
+    hostname: management
+  proxy:
+    container_name: proxy
+    build: ./proxy
+    networks:
+      - simple_api_proxy
+    ports: 
+      - '5000:5000'
+networks:
+  simple_api_proxy:
+    driver: bridge
